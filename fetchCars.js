@@ -30,7 +30,11 @@ module.exports = function(cb) {
   Promise.all(ops).then(function(cars) {
     // flatten array of arrays we get back
     let flat = [].concat.apply([], cars);
-    return cb(null, flat)
+    let map = {}
+    flat.forEach(function(car) {
+      map[car.Vin] = car
+    })
+    return cb(null, map)
   }).catch(function(err) {
     console.log('fetchCars: Promises failed')
     return cb(err)
